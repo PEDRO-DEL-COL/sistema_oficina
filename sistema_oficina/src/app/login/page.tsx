@@ -1,17 +1,39 @@
-// app/login/page.tsx
-'use client'
-
-import { useState } from 'react'
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log({ email, password })
-    // aqui você chamaria sua API de login
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Falha ao fazer login");
+      }
+
+      // Redireciona para a página do usuário
+      router.push(`/user/${encodeURIComponent(data.user.email)}`);
+    } catch (err: unknown) {
+      if (err instanceof Error) alert(err.message);
+      else alert("Erro desconhecido");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex h-screen items-center justify-center bg-green-950/50">
@@ -34,11 +56,8 @@ export default function LoginPage() {
             className="w-full rounded-lg border border-gray-300 p-2 focus:border-blue-500 focus:outline-none text-black"
             required
           />
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-green-700 p-2 text-white hover:bg-blue-700 transition"
-          >
-            Login
+          <button type="submit" disabled={loading} className="w-full rounded-lg bg-green-600 p-2 text-white hover:bg-green-700 transition disabled:bg-gray-400">
+            {loading ? "Entrando..." : "Login"}
           </button>
         </form>
         <p className="mt-4 text-center text-sm text-gray-500">

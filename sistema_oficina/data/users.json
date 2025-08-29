@@ -4,5 +4,9 @@
     "email": "pedroavgdelcol@gmail.com",
     "password": "1208pedro",
     "createdAt": "2025-08-27T22:36:59.785Z"
+  },
+  {
+    "email": "test@gmail.com",
+    "password": "123456"
   }
 ]

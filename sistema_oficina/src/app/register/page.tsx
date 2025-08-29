@@ -28,11 +28,12 @@ export default function RegisterPage() {
       const data = await res.json();
       console.log("[Register] resposta da API:", data);
 
-      if (!res.ok || !data.success) {
-        throw new Error(data?.error || "Falha ao registrar");
+      if (!res.ok) {
+      // se o backend retorna { error: "..." }, pega essa mensagem
+      throw new Error(data?.error || "Fail to register.");
       }
 
-      alert("Usuário registrado com sucesso!");
+      alert("User registered successfully!");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
@@ -40,9 +41,9 @@ export default function RegisterPage() {
       console.error(err);
 
       if (err instanceof Error) {
-        alert("Erro: " + err.message);
+        alert("Error: " + err.message);
       } else {
-        alert("Erro desconhecido");
+        alert("Unknown error.");
       }
     } finally {
       setLoading(false);
