@@ -2,11 +2,15 @@
   {
     "id": 1756334219784,
     "email": "pedroavgdelcol@gmail.com",
-    "password": "1208pedro",
+    "password": "1208pedro@DC",
     "createdAt": "2025-08-27T22:36:59.785Z"
   },
   {
     "email": "test@gmail.com",
+    "password": "123456"
+  },
+  {
+    "email": "xandedelcol@gmail.com",
     "password": "123456"
   }
 ]
